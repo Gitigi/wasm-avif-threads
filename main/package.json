@@ -1,0 +1,32 @@
+{
+  "name": "wasm-avif-threads",
+  "collaborators": [
+    "gitigi <stephengitigi@gmail.com>"
+  ],
+  "description": "avif encoder",
+  "version": "0.1.0-alpha.1",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gitigi/wasm-avif-threads"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "files": [
+    "dist/wasm-avif-threads.js"
+  ],
+  "module": "dist/wasm-avif-threads.js",
+  "types": "dist/wasm-avif-threads.d.ts",
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "sideEffects": [
+    "./dist/wasm-avif-threads.js"
+  ]
+}
