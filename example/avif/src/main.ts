@@ -25,7 +25,7 @@ import { Encoder } from "../../../main"
 
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
   console.log('before ', new Uint8Array(imageData.data.buffer))
-  const avif = await encoder.encode(new Uint8Array(imageData.data.buffer), imageData.width, imageData.height)
+  const avif = await encoder.encode(new Uint8Array(imageData.data.buffer), imageData.width, imageData.height, 8)
   console.log('after ', avif)
   const blob = new Blob([avif], {type: "image/avif"})
   const file = new File([blob], 'untitled', { type: blob.type })

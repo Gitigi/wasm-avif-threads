@@ -1,0 +1,1 @@
+export * from "../../worker/pkg/worker_threads_bg"

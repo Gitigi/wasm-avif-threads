@@ -1,0 +1,52 @@
+[package]
+name = "worker-threads"
+version = "0.1.0"
+authors = ["gitigi <stephengitigi@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+wasm-bindgen = "0.2.84"
+base64 = "0.22.1"
+js-sys = "0.3.69"
+const_format = "0.2.32"
+format_no_std = "1.2.0"
+
+# The `console_error_panic_hook` crate provides better debugging of panics by
+# logging them with `console.error`. This is great for development, but requires
+# all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
+# code size when deploying.
+console_error_panic_hook = { version = "0.1.7", optional = true }
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.34"
+
+[dependencies.web-sys]
+version = "0.3.69"
+features = [
+  'CanvasRenderingContext2d',
+  'ErrorEvent',
+  'Event',
+  'ImageData',
+  'Navigator',
+  'Window',
+  'Worker',
+  'DedicatedWorkerGlobalScope',
+  'MessageEvent',
+  'Url',
+  'Blob',
+  'BlobPropertyBag',
+]
+
+
+[profile.release]
+lto = true
+opt-level = 'z'
+# strip = true
+panic = "abort"
+codegen-units = 1
