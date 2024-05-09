@@ -67,7 +67,6 @@ impl WorkerPool {
     /// Returns any error that may happen while a JS web worker is created and a
     /// message is sent to it.
     fn spawn(&self) -> Result<Worker, JsValue> {
-        console_log!("spawning new worker");
         // TODO: what to do about `./worker.js`:
         //
         // * the path is only known by the bundler. How can we, as a
@@ -150,7 +149,6 @@ impl WorkerPool {
         let reclaim_slot = Rc::new(RefCell::new(None));
         let slot2 = reclaim_slot.clone();
         let reclaim = Closure::<dyn FnMut(_)>::new(move |event: Event| {
-            console_log!("reclaim called with {:?}", event);
             if let Some(error) = event.dyn_ref::<ErrorEvent>() {
                 console_log!("error in worker: {}", error.message());
                 // TODO: this probably leaks memory somehow? It's sort of
@@ -162,7 +160,6 @@ impl WorkerPool {
             // callback by clearing out `slot2` which contains our own closure.
             if let Some(_msg) = event.dyn_ref::<MessageEvent>() {
                 if let Some(state) = state.upgrade() {
-                    console_log!("retreivng {}", state.workers.borrow().len());
                     state.push(worker2.clone());
                 } else {
                   worker2.terminate();
@@ -183,7 +180,6 @@ impl WorkerPool {
 
 impl Drop for WorkerPool {
     fn drop(&mut self) {
-        console_log!("dropping {}", self.state.workers.borrow().len());
         for state in self.state.workers.borrow().iter() {
             state.terminate();
         }
@@ -251,7 +247,6 @@ const WORKER_BASE64: &str = {
         // After our first message all subsequent messages are an entry point to run,
         // so we just do that.
         self.onmessage = event => {
-        console.log('initialized')
         let initialised = wasm_bindgen(...event.data).catch(err => {
             // Propagate to main `onerror`:
             setTimeout(() => {

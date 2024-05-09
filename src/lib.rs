@@ -25,6 +25,7 @@ extern "C" {
 #[wasm_bindgen]
 pub struct AvifEncoder {
     pool: WorkerPool,
+    pool_size: usize,
 }
 
 #[wasm_bindgen]
@@ -33,13 +34,13 @@ impl AvifEncoder {
     pub fn new(initial: usize) -> Self {
         utils::set_panic_hook();
         let pool = pool::WorkerPool::new(initial).unwrap();
-        AvifEncoder{pool}
+        AvifEncoder{pool, pool_size: initial}
     }
 
     #[wasm_bindgen]
     pub fn encode(&self, buffer: Vec<u8>, width: usize, height: usize, speed: u8) -> Result<Promise, JsValue> {
         let thread_pool = rayon::ThreadPoolBuilder::new()
-                .num_threads(16)
+                .num_threads(self.pool_size)
                 .spawn_handler(|thread| {
                     console_log!("executing task");
                     self.pool.run(|| thread.run()).unwrap();
