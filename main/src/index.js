@@ -12,9 +12,10 @@ export class Encoder {
   * @param {Uint8Array} buffer
   * @param {number} width
   * @param {number} height
+  * @param {number} speed
   * @returns {Promise<Uint8Array>}
   */
-  async encode(buffer, width, height) {
+  async encode(buffer, width, height, speed = 4) {
     const id = `request-${this.requestsCounter++}`;
  
     return new Promise((resolve) => {
@@ -22,7 +23,7 @@ export class Encoder {
           resolve(data);
       };
 
-      this.worker.postMessage({id, data: {buffer, width, height}})
+      this.worker.postMessage({id, data: {buffer, width, height, speed}})
     });
   }
 

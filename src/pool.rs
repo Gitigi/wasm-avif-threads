@@ -184,9 +184,9 @@ impl WorkerPool {
 impl Drop for WorkerPool {
     fn drop(&mut self) {
         console_log!("dropping {}", self.state.workers.borrow().len());
-      for state in self.state.workers.borrow().iter() {
-        state.terminate();
-      }
+        for state in self.state.workers.borrow().iter() {
+            state.terminate();
+        }
     }
 }
 
